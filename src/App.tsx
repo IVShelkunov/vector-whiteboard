@@ -15,18 +15,25 @@ function App() {
   const [brushWidth, setBrushWidth] = useState(4);
   //begin draw
   //mouse coord helper
-  const getMousePos = (e: MouseEvent): IPoint => {
+  const getMousePos = (e: MouseEvent | TouchEvent): IPoint => {
     if (!canvasRef.current) return { x: 0, y: 0 };
     const canvas = canvasRef.current;
     const rect = canvas.getBoundingClientRect();
+    const clientX = (e as TouchEvent).touches
+      ? (e as TouchEvent).touches[0].clientX
+      : (e as MouseEvent).clientX;
+    const clientY = (e as TouchEvent).touches
+      ? (e as TouchEvent).touches[0].clientY
+      : (e as MouseEvent).clientY;
     const scaleX = canvas.width / rect.width;
     const scaleY = canvas.height / rect.height;
     return {
-      x: (e.clientX - rect.left) * scaleX,
-      y: (e.clientY - rect.top) * scaleY,
+      x: (clientX - rect.left) * scaleX,
+      y: (clientY - rect.top) * scaleY,
     };
   };
-  const handleMouseDown = (e: MouseEvent) => {
+  const handleMouseDown = (e: MouseEvent | TouchEvent) => {
+    if (e.type === "touchstart") e.preventDefault();
     const { x, y } = getMousePos(e);
     const newLine: IDrawLine = {
       points: [{ x, y }],
@@ -35,7 +42,8 @@ function App() {
     };
     setCurrentLine(newLine);
   };
-  const handleMouseMove = (e: MouseEvent) => {
+  const handleMouseMove = (e: MouseEvent | TouchEvent) => {
+    if (e.type === "touchmove") e.preventDefault();
     if (!currentLine) return;
     const { x, y } = getMousePos(e);
     setCurrentLine({
@@ -43,7 +51,8 @@ function App() {
       points: [...currentLine.points, { x, y }],
     });
   };
-  const handleMouseUp = () => {
+  const handleMouseUp = (e: MouseEvent | TouchEvent) => {
+    if (e.type === "touchend") e.preventDefault();
     if (!currentLine) return;
     setLines([...lines, currentLine]);
     setCurrentLine(null);
@@ -78,12 +87,21 @@ function App() {
     canvas.addEventListener("mousedown", handleMouseDown);
     canvas.addEventListener("mousemove", handleMouseMove);
     canvas.addEventListener("mouseup", handleMouseUp);
+    canvas.addEventListener("mouseleave", handleMouseUp);
+    //touch listeners
+    canvas.addEventListener("touchstart", handleMouseDown);
+    canvas.addEventListener("touchmove", handleMouseMove);
+    canvas.addEventListener("touchend", handleMouseUp);
     console.log(lines);
     return () => {
       window.removeEventListener("resize", resizeCanvas);
       canvas.removeEventListener("mousedown", handleMouseDown);
       canvas.removeEventListener("mousemove", handleMouseMove);
       canvas.removeEventListener("mouseup", handleMouseUp);
+      canvas.removeEventListener("mouseleave", handleMouseUp);
+      canvas.removeEventListener("touchstart", handleMouseDown);
+      canvas.removeEventListener("touchmove", handleMouseMove);
+      canvas.removeEventListener("touchend", handleMouseUp);
     };
   }, [lines, currentLine, brushColor, brushWidth]);
   return (
@@ -125,7 +143,7 @@ function App() {
             <input
               type="range"
               min={1}
-              max={30}
+              max={100}
               value={brushWidth}
               onChange={(e) => setBrushWidth(Number(e.target.value))}
               className="accent-indigo-500"
