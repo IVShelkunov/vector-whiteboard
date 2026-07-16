@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import "./App.css";
 import type { IDrawLine, IPoint } from "./types/drawing";
-import { useTemporal } from "./lib/hooks/useTemporal";
+import { useTemporal } from "use-temporal-state-history";
 import { drawStroke } from "./lib/utils/drawUtils";
 import ControlButton from "./components/ui/ControlButton";
 
