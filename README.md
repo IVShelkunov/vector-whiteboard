@@ -1,75 +1,28 @@
-# React + TypeScript + Vite
+# Vector Whiteboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> Interactive vector drawing application built to demonstrate the capabilities of [use-temporal-state-history](https://www.npmjs.com/package/use-temporal-state-history).
 
-Currently, two official plugins are available:
+[🔗 Live Demo](https://your-vercel-link.vercel.app/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+![Whiteboard Demo](https://github.com/user-attachments/assets/420f6015-b79d-41b4-95a0-5ae8412e52df)
 
-## React Compiler
+## 🎯 About
+This application is a proof-of-concept project demonstrating how to build a complex state-driven canvas application using custom React hooks. It features smooth vector rendering and advanced state management.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## ✨ Core Features
+* **Vector Rendering:** Custom implementation using HTML5 Canvas API.
+* **Undo/Redo Engine:** Powered by my custom library to handle non-destructive state changes.
+* **Responsive Design:** Canvas automatically scales to the container, with precise coordinate mapping for mouse/touch inputs.
+* **Sci-Fi Aesthetic:** Dark-themed UI with procedural "circuit board" background effects.
 
-## Expanding the ESLint configuration
+## 🛠 Tech Stack
+* **Framework:** React + Vite
+* **Language:** TypeScript
+* **Styling:** Tailwind CSS v4
+* **State Management:** [use-temporal-state-history](https://www.npmjs.com/package/use-temporal-state-history)
+* **Rendering:** HTML5 Canvas API
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
-```
+## 🚀 Running Locally
+1. `git clone https://github.com/IVShelkunov/vector-whiteboard.git`
+2. `pnpm install`
+3. `pnpm dev`
